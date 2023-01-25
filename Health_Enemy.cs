@@ -146,6 +146,7 @@ public class Health_Enemy : Health{
 		DeathFeedbacks?.PlayFeedbacks();
 
 		//■トドめをした攻撃方法によってスコア分岐
+		//■PointsWhenDestroyedになんでもいいので数値を設定しないと、スコアに加算されない
 		// Adds points if needed.
 		if (PointsWhenDestroyed != 0)
 		{
