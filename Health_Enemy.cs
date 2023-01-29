@@ -12,6 +12,9 @@ public class Health_Enemy : Health{
 	public string hitObjectName;
 	public int meleeScore;
 	public int shotScore;
+	private GameObject countDownObject;	//CountTimerオブジェクトを入れる用
+	CountTimer countTimer;				//CountTimerスクリプトを入れる用
+	private int addTimeScore;			//intにcastしたもの入れる用
 
 	//■ダメージを発生させたオブジェクト(instigator)を取得したい
 	public override void Damage(float damage, GameObject instigator, float flickerDuration,
@@ -150,11 +153,16 @@ public class Health_Enemy : Health{
 		// Adds points if needed.
 		if (PointsWhenDestroyed != 0)
 		{
-			Debug.Log("death");
+//			Debug.Log("death");
+			countDownObject = GameObject.Find("CountTimer");		//CountTimerを検索して取得
+			countTimer = countDownObject.GetComponent<CountTimer>();//↑のオブジェクトからCountTimerスクリプト取得
+			addTimeScore = (int)countTimer.CountDownTime;			//↑のスクリプト内の変数CountDownTimeをintにcast
 			//トドメ攻撃の判定
 			if(hitObjectName == "PlayerWeapon2(Clone)DamageArea (UnityEngine.GameObject)"){
+				meleeScore = meleeScore + addTimeScore;				//破壊時にボーナススコアを加算
 				CorgiEnginePointsEvent.Trigger(PointsMethods.Add, meleeScore);
 			}else{
+				shotScore = shotScore + addTimeScore;				//破壊時にボーナススコアを加算
 				CorgiEnginePointsEvent.Trigger(PointsMethods.Add, shotScore);
 			}
 		}
